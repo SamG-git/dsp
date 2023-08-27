@@ -2,3 +2,9 @@
 *.o
 __pycache__
 .vscode
+.pytest_cache
+b__*
+*.adb.*
+*.ali
+*.bexch
+ADA12/main
