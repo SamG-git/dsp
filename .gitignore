@@ -8,3 +8,6 @@ b__*
 *.ali
 *.bexch
 ADA12/main
+ADA12/fft_speed
+ADA12/dft_speed
+ADA12/dft_fft_test

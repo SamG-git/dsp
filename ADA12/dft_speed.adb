@@ -19,20 +19,14 @@ procedure MAIN is
    use C_IO;
 
     G : Generator;
-    IQ : DSP_Custom.Complex_Vector(1 .. 1000);
-    IQ_fft : DSP_Custom.Complex_Vector(1 .. 1000);
+    IQ : DSP_Custom.Complex_Vector(1 .. 32768);
+    IQ_dft : DSP_Custom.Complex_Vector(1 .. 32768);
 begin
-    Ada.Text_IO.Put_Line("DSP_CUSTOM TEST APPLICATION");
     Reset(G);
     
     for N in IQ'Range loop
         IQ(N) := (Random(G), Random(G));
     end loop;
     
-    IQ_fft := DSP_Custom.DFT(IQ);
-
-    for N in IQ'Range loop
-        Put(IQ_fft(N));
-        New_Line;
-    end loop;
+    IQ_dft := DSP_Custom.DFT(IQ);
 end MAIN;
