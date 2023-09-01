@@ -9,30 +9,6 @@ with Ada.Text_IO.Complex_IO;
 
 
 package body DSP_Custom is
-    -- A standard DFT with O(N^2) complexity 
-
-    function DFT ( IQ: Complex_Vector) return Complex_Vector is
-        output : Complex_Vector(IQ'Range);
-        tab : Ada.Numerics.Complex_Types.Complex;
-        exponant : Ada.Numerics.Complex_Types.Complex;
-        K_Float : Standard.Float;
-        N_Float : Standard.Float;
-        IQ_Len  : Standard.Float;
-    begin
-        IQ_Len := Standard.Float(IQ'Length);
-        for K in IQ'Range loop
-            tab := (0.0, 0.0);
-            for N in IQ'Range loop
-                K_Float := Standard.Float(K);
-                N_Float := Standard.Float(N);
-                exponant := Complex'(0.0, Standard.Float'(
-                    ((-2.0 * Pi)/IQ_Len) * K_Float * N_Float));
-                tab := tab + e ** exponant;
-            end loop;
-            output(K) := tab;
-        end loop;
-        return output;
-    end DFT;
 
     function FFT ( IQ : Complex_Vector) return Complex_Vector is
         output   : Complex_Vector(IQ'Range);
@@ -57,11 +33,11 @@ package body DSP_Custom is
 
         for I in 1 .. IQ'Length loop
             if I mod 2 = 0 then
-                odd(odd_idx) := IQ(I);
-                odd_idx := odd_idx + 1;
-            else
                 even(even_idx) := IQ(I);
                 even_idx := even_idx + 1;
+            else
+                odd(odd_idx) := IQ(I);
+                odd_idx := odd_idx + 1;
             end if;
         end loop;
 
