@@ -65,8 +65,6 @@ package body DSP_Custom is
             Int_IQ     : Complex_Vector(0 .. IQ'Length/2 - 1);
             Int_Result : Complex_Vector(0 .. IQ'length/2 - 1);
         begin
-            
-            
             accept Go ( IQ : Complex_Vector) do
                     Int_IQ := IQ;
             end Go;
