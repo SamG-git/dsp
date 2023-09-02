@@ -9,15 +9,14 @@ with Ada.Text_IO.Complex_IO;
 
 
 package body DSP_Custom is
-
     function FFT ( IQ : Complex_Vector) return Complex_Vector is
         output   : Complex_Vector(IQ'Range);
-        even     : Complex_Vector(1 .. IQ'Length/2);
-        odd      : Complex_Vector(1 .. IQ'Length/2);
-        even_fft : Complex_Vector(1 .. IQ'Length/2);
-        odd_fft  : Complex_Vector(1 .. IQ'Length/2);
-        even_idx : Standard.Integer := 1;
-        odd_idx  : Standard.Integer := 1;
+        even     : Complex_Vector(0 .. IQ'Length/2 - 1);
+        odd      : Complex_Vector(0 .. IQ'Length/2 - 1);
+        even_fft : Complex_Vector(0 .. IQ'Length/2 - 1);
+        odd_fft  : Complex_Vector(0.. IQ'Length/2 - 1);
+        even_idx : Standard.Integer := 0;
+        odd_idx  : Standard.Integer := 0;
         W        : Ada.Numerics.Complex_Types.Complex;
         exponant : Ada.Numerics.Complex_Types.Complex;
         I_Float  : Standard.Float;
@@ -25,13 +24,13 @@ package body DSP_Custom is
     begin
         -- Set output to input if length is one
         if IQ'Length = 1 then
-            output(1) := IQ(1);
+            output(0) := IQ(0);
             return output;
         end if;
 
         IQ_Len := Standard.Float(IQ'Length);
 
-        for I in 1 .. IQ'Length loop
+        for I in 0 .. IQ'Length - 1 loop
             if I mod 2 = 0 then
                 even(even_idx) := IQ(I);
                 even_idx := even_idx + 1;
@@ -44,13 +43,13 @@ package body DSP_Custom is
         even_fft := FFT(even);
         odd_fft  := FFT(odd);
 
-        for I in 1 .. IQ'Length/2 loop
+        for I in 0 .. IQ'Length/2 - 1 loop
             I_Float := Standard.Float(I);
             exponant := Complex'(0.0, Standard.Float'(
                 ((-2.0 * Pi * I_Float)/IQ_Len)));
             W := e ** exponant;
-            output(I) := even(I) + W * odd(I);
-            output(I + IQ'Length/2) := even(I) - W * odd(I);
+            output(I) := even_fft(I) + W * odd_fft(I);
+            output(I + IQ'Length/2) := even_fft(I) - W * odd_fft(I);
         end loop;
 
         return output;
