@@ -20,7 +20,6 @@ procedure MAIN is
 
     G : Generator;
     IQ : DSP_Custom.Complex_Vector(0 .. 3);
-    IQ_fft : DSP_Custom.Complex_Vector(0 .. 3);
     IQ_fft_conc : DSP_Custom.Complex_Vector(0 .. 3);
 begin
     Reset(G);
@@ -31,14 +30,7 @@ begin
     end loop;
     New_Line;
     
-    IQ_fft := DSP_Custom.FFT(IQ);
     IQ_fft_conc := DSP_Custom.FFT_CONC(IQ);
-
-    for N in IQ'Range loop
-        IQ(N) := (Random(G), Random(G));
-        Put (IQ_fft(N));
-    end loop;
-    New_Line;
 
     for N in IQ'Range loop
         IQ(N) := (Random(G), Random(G));
